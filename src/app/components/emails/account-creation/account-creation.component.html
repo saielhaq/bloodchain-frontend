@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        background-color: #ff004c;
+        color: #ffffff;
+        padding: 10px;
+        text-align: center;
+        border-radius: 8px 8px 0 0;
+      }
+      .content {
+        padding: 20px;
+      }
+      .footer {
+        text-align: center;
+        padding: 10px;
+        font-size: 12px;
+        color: #888888;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Welcome to BloodChain</h1>
+      </div>
+      <div class="content">
+        <p>Dear {{ name }},</p>
+        <p>
+          Thank you for creating an account with BloodChain. We are excited to
+          have you on board.
+        </p>
+        <p>Best regards,<br />BloodChain Team</p>
+      </div>
+      <div class="footer">&copy; 2024 BloodChain. All rights reserved</div>
+    </div>
+  </body>
+</html>

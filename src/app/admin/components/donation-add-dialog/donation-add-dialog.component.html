@@ -1,0 +1,44 @@
+<h1 mat-dialog-title>Edit Donation</h1>
+<form>
+  <div mat-dialog-content>
+    <mat-form-field appearance="fill">
+      <mat-label>Select Donation Type</mat-label>
+      <mat-select [(ngModel)]="data.donationType" name="donationType">
+        <mat-option *ngFor="let type of types" [value]="type">{{
+          type
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Enter Amount</mat-label>
+      <input
+        matInput
+        type="number"
+        min="0"
+        step="50"
+        [(ngModel)]="quantity"
+        name="quantity"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Search CIN</mat-label>
+      <input
+        matInput
+        [formControl]="userCinControl"
+        placeholder="CIN"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let cin of filteredUsersCin | async" [value]="cin">
+          {{ cin }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-stroked-button (click)="submit()">Submit</button>
+    <button mat-stroked-button (click)="close()">Cancel</button>
+  </div>
+</form>

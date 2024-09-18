@@ -1,0 +1,122 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav mode="side" opened class="sidenav">
+    <mat-toolbar>
+      <a routerLink="/">
+        <button mat-icon-button>
+          <mat-icon class="icon-logo"> water_drop </mat-icon>
+        </button>
+        <span class="text-logo">BloodChain</span>
+      </a>
+    </mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/admin/dashboard">Dashboard</a>
+      <a mat-list-item routerLink="/admin/manage-users">Manage Users</a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar>
+      <span>Admin Dashboard</span>
+      <span class="big-spacer"></span>
+      <button mat-stroked-button routerLink="/donor/dashboard">
+        My Donations
+      </button>
+      <span class="small-spacer"></span>
+      <button mat-stroked-button (click)="logout()">Log out</button>
+    </mat-toolbar>
+
+    <div class="content">
+      <div class="search-container">
+        <mat-form-field>
+          <mat-label>Search</mat-label>
+          <input matInput (keyup)="applyFilter($event)" />
+        </mat-form-field>
+        <button mat-flat-button color="primary" (click)="openDonationPopup()">
+          Add Donation
+        </button>
+      </div>
+
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        matSort
+        matSortDirection="desc"
+        class="mat-elevation-z8"
+      >
+        <ng-container matColumnDef="donationType">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Donation Type
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.donationType }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</th>
+          <td mat-cell *matCellDef="let element">{{ element.quantity }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="donationDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Donation Date
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.donationDate | date }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="donationStatus">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Donation Status
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.donationStatus }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="userCin">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>User CIN</th>
+          <td mat-cell *matCellDef="let element">{{ element.userCin }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button (click)="editDonation(element.id)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              color="warn"
+              (click)="deleteDonation(element.id)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              class="validate"
+              *ngIf="element.donationStatus === 'PENDING'"
+              (click)="validateDonation(element.id)"
+            >
+              <mat-icon>check_circle</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr
+          mat-header-row
+          *matHeaderRowDef="displayedColumns.concat('actions')"
+        ></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns.concat('actions')"
+        ></tr>
+      </table>
+
+      <mat-paginator
+        [length]="dataSource.data.length"
+        [pageSize]="13"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,68 @@
+$primary-color: #ff004c;
+$accent-color: #f11f4d;
+$background-color: #fdfdfd;
+
+mat-toolbar {
+  background-color: $background-color;
+  border-bottom: #12111115 1px solid;
+}
+
+.nav-buttons {
+  margin-left: 4rem;
+  button {
+    margin-right: 1rem;
+  }
+
+  @media (max-width: 600px) {
+    display: none;
+  }
+}
+
+a {
+  text-decoration: none;
+  color: #121111;
+  display: flex;
+  align-items: center;
+
+  span {
+    margin-top: 4px;
+    font-size: 1.3rem;
+  }
+}
+
+button {
+  margin-top: 5px;
+  .icon-logo {
+    font-size: 1.6rem;
+    color: $primary-color;
+  }
+}
+
+.big-spacer {
+  flex: 1 1 auto;
+
+  @media (max-width: 600px) {
+    display: none;
+  }
+}
+
+.mdc-button.mdc-button--outlined {
+  font-size: 1rem;
+  border-color: $accent-color;
+  color: $accent-color;
+}
+
+.mdc-button.mat-mdc-button {
+  font-size: 1rem;
+  color: $accent-color;
+}
+
+.menu-buttons {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .nav-buttons {
+    display: none;
+  }
+}

@@ -1,0 +1,17 @@
+.delete-dialog {
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+}
+
+.dialog-buttons {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.validation-button {
+  background-color: #02851e;
+  color: #ffffff;
+}

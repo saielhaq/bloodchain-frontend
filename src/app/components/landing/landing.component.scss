@@ -1,0 +1,99 @@
+.hero {
+  background-color: #fdfdfd;
+  text-align: center;
+  padding: 0;
+  height: 100vh;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+a {
+  color: #fdfdfd;
+}
+
+.hero h1 {
+  font-size: 3rem;
+}
+
+.hero p {
+  font-size: 1.2rem;
+}
+
+.left,
+.right {
+  flex: 1;
+}
+
+.right img {
+  width: 100%;
+  max-width: 70%;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 50px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.features h2 {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 40px;
+  color: #f11f4d;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 0 10px;
+}
+
+.feature {
+  background-color: #fff;
+  border: 2px solid #f11f4d;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.feature:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.feature h3 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  color: #f11f4d;
+}
+
+.feature p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555;
+}
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  padding: 20px 0;
+  background-color: #f11f4d;
+}
+
+footer p {
+  margin: 5px 0;
+  color: #ffffff;
+}

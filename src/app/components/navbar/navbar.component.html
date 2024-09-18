@@ -1,0 +1,45 @@
+<mat-toolbar>
+  <a routerLink="/">
+    <button mat-icon-button>
+      <mat-icon class="icon-logo"> water_drop </mat-icon>
+    </button>
+    <span>BloodChain</span>
+  </a>
+
+  <div class="nav-buttons">
+    <button mat-button routerLink="/home">Home</button>
+    <ng-container *ngIf="isLoggedIn">
+      <ng-container *ngIf="isAdminOrDoctor(); else donorOrResponsible">
+        <button mat-button routerLink="/admin/dashboard">
+          Donations Dashboard
+        </button>
+      </ng-container>
+      <ng-template #donorOrResponsible>
+        <button mat-button routerLink="/donor/dashboard">My Donations</button>
+      </ng-template>
+    </ng-container>
+  </div>
+
+  <span class="big-spacer"></span>
+
+  <div class="authentication">
+    <ng-container *ngIf="isLoggedIn; else loggedOut">
+      <button mat-stroked-button (click)="logout()">Log out</button>
+    </ng-container>
+
+    <ng-template #loggedOut>
+      <button mat-button routerLink="/login">Login</button>
+      <span class="small-spacer"></span>
+      <button mat-stroked-button routerLink="/signup">Signup</button>
+    </ng-template>
+  </div>
+
+  <div class="menu-buttons">
+    <button mat-icon-button>
+      <mat-icon class="menu-button">menu</mat-icon>
+    </button>
+    <button mat-icon-button>
+      <mat-icon class="close-menu-button">close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>

@@ -1,0 +1,48 @@
+<h1 mat-dialog-title>Add User</h1>
+<form>
+  <div mat-dialog-content>
+    <mat-form-field appearance="fill">
+      <mat-label>CIN</mat-label>
+      <input matInput [(ngModel)]="userAdd.cin" name="cin" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>First Name</mat-label>
+      <input
+        matInput
+        [(ngModel)]="userAdd.firstname"
+        name="firstname"
+        required
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Last Name</mat-label>
+      <input matInput [(ngModel)]="userAdd.lastname" name="lastname" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        type="email"
+        [(ngModel)]="userAdd.email"
+        name="email"
+        required
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Select Authority</mat-label>
+      <mat-select [(ngModel)]="userAdd.roles" name="roles" multiple>
+        <mat-option *ngFor="let authority of authorities" [value]="authority">
+          {{ authority }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-stroked-button (click)="submit()">Submit</button>
+    <button mat-stroked-button (click)="close()">Cancel</button>
+  </div>
+</form>
