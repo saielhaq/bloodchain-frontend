@@ -73,7 +73,12 @@ export class DonordashboardComponent {
     const token = localStorage.getItem('token');
     if (token) {
       const decodedToken = this.decodeToken(token).authorities;
-      if (!decodedToken.includes('DONOR')) {
+      if (
+        !decodedToken.includes('DONOR') &&
+        !decodedToken.includes('ADMIN') &&
+        !decodedToken.includes('DOCTOR') &&
+        !decodedToken.includes('RESPONSIBLE')
+      ) {
         this.location.back();
       } else {
         this.loadDonationData();
@@ -89,7 +94,6 @@ export class DonordashboardComponent {
       const decodedToken = this.decodeToken(token);
       const id = decodedToken.userId;
       this.donationService.getHistory(id).subscribe((data) => {
-        console.log(data);
         this.dataSource.data = data
           .filter((donation) => donation.donationDate)
           .sort((a, b) => {

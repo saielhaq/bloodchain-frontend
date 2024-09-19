@@ -101,7 +101,6 @@ export class DonationService {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
-    console.log(updatedDonation);
 
     return this.http.put<Donation>(`${baseUrl}/edit`, updatedDonation, {
       headers,

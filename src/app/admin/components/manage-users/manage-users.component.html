@@ -9,7 +9,7 @@
       </a>
     </mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item routerLink="/admin/dashboard">Dashboard</a>
+      <a mat-list-item routerLink="/admin/dashboard">Manage Donations</a>
       <a mat-list-item routerLink="/admin/manage-users">Manage Users</a>
     </mat-nav-list>
   </mat-sidenav>
@@ -51,15 +51,8 @@
           <td mat-cell *matCellDef="let element">{{ element.cin }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="bloodType">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Blood Type</th>
-          <td mat-cell *matCellDef="let element">{{ element.bloodType }}</td>
-        </ng-container>
-
         <ng-container matColumnDef="highestAuthority">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            Highest Authority
-          </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Authority</th>
           <td mat-cell *matCellDef="let element">
             {{ element.roles[0].name }}
           </td>

@@ -43,6 +43,15 @@ export class NavbarComponent implements OnInit {
     return false;
   }
 
+  getRole(): string {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = this.decodeToken(token).authorities;
+      return decodedToken[0];
+    }
+    return '';
+  }
+
   decodeToken(token: string): any {
     const payload = token.split('.')[1];
     const decodedPayload = atob(payload);

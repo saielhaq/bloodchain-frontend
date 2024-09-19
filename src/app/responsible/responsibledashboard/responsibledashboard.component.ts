@@ -75,7 +75,6 @@ export class ResponsibledashboardComponent {
     if (token) {
       const decodedToken = this.decodeToken(token);
       this.currentUser = decodedToken.cin;
-      console.log(decodedToken);
     }
   }
 
@@ -97,12 +96,14 @@ export class ResponsibledashboardComponent {
     const authorityOrder = ['ADMIN', 'RESPONSIBLE', 'DOCTOR', 'DONOR'];
 
     this.userService.findAll().subscribe((data: any[]) => {
-      data.sort((a, b) => {
-        return (
-          authorityOrder.indexOf(a.authorities[0]) -
-          authorityOrder.indexOf(b.authorities[0])
-        );
-      });
+      data.map((user) =>
+        user.authorities.sort((a: any, b: any) => {
+          return (
+            authorityOrder.indexOf(a.authority) -
+            authorityOrder.indexOf(b.authority)
+          );
+        })
+      );
 
       this.dataSource.data = data;
       this.dataSource.sort = this.sort;
@@ -135,6 +136,10 @@ export class ResponsibledashboardComponent {
     });
   }
 
+  isAdmin(user: User): boolean {
+    return user.roles.filter((role) => role.name === 'ADMIN').length > 0;
+  }
+
   logout() {
     localStorage.removeItem('token');
     this.router.navigate(['/login']);
@@ -147,10 +152,8 @@ export class ResponsibledashboardComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log(result);
         this.userService.addUser(result).subscribe(
           (data) => {
-            console.log('data', data);
             this.dataSource.data = [data, ...this.dataSource.data];
             this.toast.success('User added successfully');
             this.emailService
@@ -161,7 +164,6 @@ export class ResponsibledashboardComponent {
               })
               .subscribe(
                 (response) => {
-                  console.log(response);
                   this.toast.success(
                     'Account creation email sent successfully'
                   );

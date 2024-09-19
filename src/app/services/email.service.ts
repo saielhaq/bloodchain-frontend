@@ -15,7 +15,6 @@ export class EmailService {
   }
 
   sendAccountCreationEmail(emailData: any): Observable<any> {
-    console.log('Email data: ', emailData);
     return this.getTemplate(
       'assets/email-templates/account-creation-email.component.html'
     ).pipe(
@@ -34,7 +33,6 @@ export class EmailService {
         );
       }),
       switchMap((postRequest) => postRequest),
-      tap(() => console.log('Account creation email request sent')),
       catchError((error) => {
         console.error('Error sending account creation email:', error);
         return throwError(error);
@@ -59,7 +57,6 @@ export class EmailService {
         );
       }),
       switchMap((postRequest) => postRequest),
-      tap(() => console.log('Donation validation email request sent')),
       catchError((error) => {
         console.error('Error sending donation validation email:', error);
         return throwError(error);

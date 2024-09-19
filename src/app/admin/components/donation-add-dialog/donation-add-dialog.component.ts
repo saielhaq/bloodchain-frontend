@@ -80,6 +80,7 @@ export class DonationAddDialogComponent implements OnInit {
   }
 
   submit() {
+    // debugger
     this.quantityError = '';
     this.typeError = '';
     this.userCinError = '';
@@ -104,16 +105,18 @@ export class DonationAddDialogComponent implements OnInit {
       return;
     }
 
-    if (!this.usersCin.includes(this.userCinControl.value)) {
+    const userCinValue = this.userCinControl.value.trim().toLowerCase();
+
+    if (!this.usersCin.map((cin) => cin.toLowerCase()).includes(userCinValue)) {
       this.userCinError = 'User CIN must be among the listed users';
       this.toast.warning('User CIN must be among the listed users');
       return;
     }
 
     const donationData: DonationAdd = {
-      type: this.data.category || this.data.donationType,
+      type: this.data.category.trim() || this.data.donationType.trim(),
       quantity: this.quantity,
-      userCin: this.userCinControl.value,
+      userCin: userCinValue,
     };
 
     this.dialogRef.close(donationData);

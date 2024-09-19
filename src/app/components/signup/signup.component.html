@@ -10,6 +10,7 @@
             matInput
             placeholder="CIN"
             formControlName="cinNumber"
+            (input)="onInput($event)"
           />
           <mat-error
             *ngIf="
@@ -29,6 +30,7 @@
             matInput
             placeholder="First Name"
             formControlName="firstName"
+            (input)="onInput($event)"
           />
           <mat-error
             *ngIf="
@@ -48,6 +50,7 @@
             matInput
             placeholder="Last Name"
             formControlName="lastName"
+            (input)="onInput($event)"
           />
           <mat-error
             *ngIf="
@@ -67,6 +70,7 @@
             matInput
             placeholder="Email"
             formControlName="userEmail"
+            (input)="onInput($event)"
           />
           <mat-error
             *ngIf="
@@ -94,6 +98,7 @@
             matInput
             placeholder="Password"
             formControlName="userPassword"
+            (input)="onInput($event)"
           />
           <mat-error
             *ngIf="
@@ -121,6 +126,7 @@
             matInput
             placeholder="Confirm Password"
             formControlName="confirmPassword"
+            (input)="onInput($event)"
           />
           <mat-error
             *ngIf="

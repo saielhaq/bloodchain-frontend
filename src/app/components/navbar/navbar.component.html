@@ -10,7 +10,10 @@
     <button mat-button routerLink="/home">Home</button>
     <ng-container *ngIf="isLoggedIn">
       <ng-container *ngIf="isAdminOrDoctor(); else donorOrResponsible">
-        <button mat-button routerLink="/admin/dashboard">
+        <button
+          mat-button
+          routerLink="/{{ getRole().toLowerCase() }}/dashboard"
+        >
           Donations Dashboard
         </button>
       </ng-container>

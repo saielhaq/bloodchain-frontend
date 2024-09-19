@@ -118,8 +118,6 @@ export class DoctordashboardComponent {
   editDonation(id: number) {
     this.donationService.getById(id).subscribe(
       (data) => {
-        console.log(data);
-
         const dialogRef = this.dialog.open(DonationAddDialogComponent, {
           width: '400px',
           data: {
@@ -166,7 +164,6 @@ export class DoctordashboardComponent {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
       if (result) {
         this.donationService.addDonation(result).subscribe(
           (data) => {
@@ -174,10 +171,9 @@ export class DoctordashboardComponent {
             this.toast.success('Donation added successfully');
           },
           (error) => {
-            console.log(error);
+            console.error('Error adding donation', error);
           }
         );
-        console.log('Donation data submitted:', result);
       }
     });
   }

@@ -1,13 +1,15 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav-content>
     <mat-toolbar>
-      <a routerLink="/">
-        <button mat-icon-button>
-          <mat-icon class="icon-logo"> water_drop </mat-icon>
-        </button>
-        <span class="text-logo">BloodChain</span>
-      </a>
+      <button mat-icon-button>
+        <mat-icon class="icon-logo"> water_drop </mat-icon>
+      </button>
+      <span class="text-logo">BloodChain</span>
       <span class="big-spacer"></span>
+      <button mat-stroked-button routerLink="/donor/dashboard">
+        My Donations
+      </button>
+      <span class="small-spacer"></span>
       <button mat-stroked-button (click)="logout()">Log out</button>
     </mat-toolbar>
 
@@ -62,7 +64,7 @@
               mat-icon-button
               color="warn"
               (click)="deleteUser(element.userId)"
-              [disabled]="element.cin === currentUser"
+              [disabled]="element.cin === currentUser || isAdmin(element)"
             >
               <mat-icon>delete</mat-icon>
             </button>

@@ -7,7 +7,13 @@ import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
-import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { HttpClientModule } from '@angular/common/http';
 import { DonationAdd } from '../../../models/donation.model';
@@ -40,17 +46,19 @@ import { UserAdd } from '../../../models/user.model';
   templateUrl: './user-add-dialog.component.html',
   styleUrl: './user-add-dialog.component.scss',
 })
-export class UserAddDialogComponent {
+export class UserAddDialogComponent implements OnInit {
   authorities: string[] = ['RESPONSIBLE', 'DOCTOR', 'DONOR'];
-  userAdd = {
-    cin: '',
-    firstname: '',
-    lastname: '',
-    email: '',
-    password: '',
-    roles: [],
-    authorities: [],
-  };
+  userAddForm: FormGroup = new FormGroup({
+    cin: new FormControl('', [Validators.required, this.cinNumberValidator]),
+    firstname: new FormControl('', [Validators.required, this.nameValidator]),
+    lastname: new FormControl('', [Validators.required, this.nameValidator]),
+    email: new FormControl('', [
+      Validators.required,
+      Validators.email,
+      this.emailValidator,
+    ]),
+    roles: new FormControl([], [Validators.required]),
+  });
 
   constructor(
     public dialogRef: MatDialogRef<UserAddDialogComponent>,
@@ -82,12 +90,6 @@ export class UserAddDialogComponent {
         allCharacters[Math.floor(Math.random() * allCharacters.length)];
     }
 
-    console.log(
-      password
-        .split('')
-        .sort(() => 0.5 - Math.random())
-        .join('')
-    );
     return password
       .split('')
       .sort(() => 0.5 - Math.random())
@@ -95,27 +97,89 @@ export class UserAddDialogComponent {
   }
 
   submit(): void {
-    if (
-      this.userAdd.cin &&
-      this.userAdd.firstname &&
-      this.userAdd.lastname &&
-      this.userAdd.email &&
-      this.userAdd.roles.length > 0
-    ) {
+    if (this.userAddForm.valid) {
       const userData: UserAdd = {
-        cin: this.userAdd.cin,
-        firstname: this.userAdd.firstname,
-        lastname: this.userAdd.lastname,
-        email: this.userAdd.email,
+        cin: this.userAddForm.value.cin.trim(),
+        firstname:
+          this.userAddForm.value.firstname.trim().charAt(0).toUpperCase() +
+          this.userAddForm.value.firstname.trim().slice(1),
+        lastname:
+          this.userAddForm.value.lastname.trim().charAt(0).toUpperCase() +
+          this.userAddForm.value.lastname.trim().slice(1),
+        email: this.userAddForm.value.email.trim(),
         password: this.generatePassword(),
-        roles: this.userAdd.roles,
+        roles: this.userAddForm.value.roles,
       };
-
+      console.log(userData);
       this.dialogRef.close(userData);
+    } else {
+      this.toast.error('Please fill in the required fields.');
+      this.userAddForm.markAllAsTouched();
     }
   }
 
   close(): void {
     this.dialogRef.close();
+  }
+
+  cinNumberValidator(control: FormControl): { [key: string]: boolean } | null {
+    const valid = /^[a-zA-Z0-9]*$/.test(control.value);
+    return valid ? null : { invalidCinNumber: true };
+  }
+
+  nameValidator(control: FormControl): { [key: string]: boolean } | null {
+    const valid = /^[a-zA-Z\s]*$/.test(control.value);
+    return valid ? null : { invalidName: true };
+  }
+
+  emailValidator(control: FormControl): { [key: string]: boolean } | null {
+    const valid = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(
+      control.value
+    );
+    return valid ? null : { invalidEmail: true };
+  }
+
+  onInput(event: any) {
+    const input = event.target;
+    const value = input.value ?? '';
+    let validValue = value;
+
+    if (input.getAttribute('formControlName') === 'cin') {
+      validValue = value.replace(/[^a-zA-Z0-9]/g, '');
+    } else if (
+      input.getAttribute('formControlName') === 'firstname' ||
+      input.getAttribute('formControlName') === 'lastname'
+    ) {
+      validValue = value.replace(/[^a-zA-Z\s]/g, '');
+    } else if (input.getAttribute('formControlName') === 'email') {
+      validValue = value.replace(/[^a-zA-Z0-9@.]/g, '');
+    }
+
+    if (validValue !== value) {
+      input.value = validValue;
+      this.userAddForm
+        .get(input.getAttribute('formControlName'))
+        ?.setValue(validValue, { emitEvent: false });
+    }
+  }
+
+  passwordStrengthValidator(
+    control: FormControl
+  ): { [key: string]: boolean } | null {
+    if (!control.value) {
+      return null;
+    }
+
+    const hasUpperCase = /[A-Z]/.test(control.value);
+    const hasNumber = /[0-9]/.test(control.value);
+    const hasSpecialChar = /[!@#$%^&*()_+{}\[\]:;"'<>,.?~\\/-]/.test(
+      control.value
+    );
+
+    if (!hasUpperCase || !hasNumber || !hasSpecialChar) {
+      return { weakPassword: true };
+    }
+
+    return null;
   }
 }

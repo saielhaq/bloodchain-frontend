@@ -51,7 +51,6 @@ export class ManageUsersComponent implements OnInit {
   displayedColumns: string[] = [
     'fullName',
     'cin',
-    'bloodType',
     'highestAuthority',
     'actions',
   ];
@@ -75,7 +74,6 @@ export class ManageUsersComponent implements OnInit {
     if (token) {
       const decodedToken = this.decodeToken(token);
       this.currentUser = decodedToken.cin;
-      console.log(decodedToken);
     }
   }
 
@@ -147,10 +145,8 @@ export class ManageUsersComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log(result);
         this.userService.addUser(result).subscribe(
           (data) => {
-            console.log('data', data);
             this.dataSource.data = [data, ...this.dataSource.data];
             this.toast.success('User added successfully');
             this.emailService
@@ -160,8 +156,7 @@ export class ManageUsersComponent implements OnInit {
                 password: data.password,
               })
               .subscribe(
-                (response) => {
-                  console.log(response);
+                () => {
                   this.toast.success(
                     'Account creation email sent successfully'
                   );

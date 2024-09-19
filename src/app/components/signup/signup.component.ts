@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  HostListener,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -37,9 +44,12 @@ import { Router } from '@angular/router';
 })
 export class SignupComponent implements OnInit {
   registrationForm: FormGroup = new FormGroup({
-    cinNumber: new FormControl('', [Validators.required]),
-    firstName: new FormControl('', [Validators.required]),
-    lastName: new FormControl('', [Validators.required]),
+    cinNumber: new FormControl('', [
+      Validators.required,
+      this.cinNumberValidator,
+    ]),
+    firstName: new FormControl('', [Validators.required, this.nameValidator]),
+    lastName: new FormControl('', [Validators.required, this.nameValidator]),
     userEmail: new FormControl('', [Validators.required, Validators.email]),
     userPassword: new FormControl('', [
       Validators.required,
@@ -69,13 +79,12 @@ export class SignupComponent implements OnInit {
 
   handleSignup() {
     if (this.registrationForm.valid && this.passwordsMatch()) {
-      console.log(1);
       const registrationData = {
-        cin: this.registrationForm.value.cinNumber,
-        firstname: this.registrationForm.value.firstName,
-        lastname: this.registrationForm.value.lastName,
-        email: this.registrationForm.value.userEmail,
-        password: this.registrationForm.value.userPassword,
+        cin: this.registrationForm.value.cinNumber.trim(),
+        firstname: this.registrationForm.value.firstName.trim(),
+        lastname: this.registrationForm.value.lastName.trim(),
+        email: this.registrationForm.value.userEmail.trim(),
+        password: this.registrationForm.value.userPassword.trim(),
         roles: ['DONOR'],
       };
 
@@ -130,6 +139,37 @@ export class SignupComponent implements OnInit {
     }
 
     return null;
+  }
+
+  cinNumberValidator(control: FormControl): { [key: string]: boolean } | null {
+    const valid = /^[a-zA-Z0-9]*$/.test(control.value);
+    return valid ? null : { invalidCinNumber: true };
+  }
+
+  nameValidator(control: FormControl): { [key: string]: boolean } | null {
+    const valid = /^[a-zA-Z\s]*$/.test(control.value);
+    return valid ? null : { invalidName: true };
+  }
+  onInput(event: any) {
+    const input = event.target;
+    const value = input.value;
+    let validValue = value;
+
+    if (input.getAttribute('formControlName') === 'cinNumber') {
+      validValue = value.replace(/[^a-zA-Z0-9]/g, '');
+    } else if (
+      input.getAttribute('formControlName') === 'firstName' ||
+      input.getAttribute('formControlName') === 'lastName'
+    ) {
+      validValue = value.replace(/[^a-zA-Z\s]/g, '');
+    }
+
+    if (validValue !== value) {
+      input.value = validValue;
+      this.registrationForm
+        .get(input.getAttribute('formControlName'))
+        ?.setValue(validValue, { emitEvent: false });
+    }
   }
 
   decodeToken(token: string): any {
